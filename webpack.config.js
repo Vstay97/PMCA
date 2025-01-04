@@ -3,7 +3,8 @@ module.exports = {
         popup: './src/popup/popup.js',
         options: './src/popup/options.js',
         leetcode: './src/popup/script/leetcode.js',
-        leetcodecn: './src/popup/script/leetcodecn.js'
+        leetcodecn: './src/popup/script/leetcodecn.js',
+        autoReset: './src/autoReset.js'
     },
     output: {
         filename: '[name].js'

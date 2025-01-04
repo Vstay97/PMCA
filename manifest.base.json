@@ -1,10 +1,10 @@
 {
     "manifest_version": 3,
     "name": "PMCA",
-    "version": "0.9.8",
-    "author": "Haolin Zhong",
+    "version": "0.9.9",
+    "author": "Vstay",
     "description": "PMCA tracks your LeetCode progress and prompt you to review based on Ebbinghaus's Forgetting Curve",
-    "homepage_url": "https://github.com/HaolinZhong/PMCA",
+    "homepage_url": "https://github.com/Vstay97/PMCA",
     "options_ui": {
         "page": "options.html",
         "open_in_tab": false  
@@ -31,7 +31,8 @@
                 "https://leetcode.com/*"
             ],
             "js": [
-                "dist/leetcode.js"
+                "dist/leetcode.js",
+                "dist/autoReset.js"
             ],
             "run_at": "document_idle"
         },
@@ -40,7 +41,8 @@
                 "https://leetcode.cn/*"
             ],
             "js": [
-                "dist/leetcodecn.js"
+                "dist/leetcodecn.js",
+                "dist/autoReset.js"
             ],
             "run_at": "document_idle"
         }
