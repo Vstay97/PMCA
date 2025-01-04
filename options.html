@@ -43,6 +43,13 @@
         .form-check input {
             flex: 0 1 auto;
         }
+
+        /* 添加数据迁移部分的样式 */
+        .data-migration {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ccc;
+        }
     </style>
 </head>
 
@@ -77,16 +84,20 @@
                 <div style="font-size: smaller; text-align: left;">
                     <small><b>p.s.</b> ⚠️For 2 or more devices to share the problem data, all of them should: 1.enable cloud sync, 2.login to chrome with the same user, 3.enable <a target="#" href="https://support.google.com/chrome/answer/185277?hl=en&co=GENIE.Platform%3DAndroid#zippy=%2Csign-in-turn-on-sync">chrome sync</a> ⚠️</small>
                 </div>
-                <div style="font-size: smaller; text-align: left;">
-                    <small><b>p.s.s.</b> The feature does not have a robust concensus algorithm backing it up, but it should be able to cover normal use cases😎. Feel free to report bugs!</small>
-                </div>
-                <div style="font-size: smaller; text-align: left;">
-                    <small><b>p.s.s.s.</b> I tried my best to align this option to the leftmost but I gave up eventually. That's why I only do backend in my real job😅.</small>
-                </div>
-                
 
                 <button type="submit" class="btn btn-outline-warning custom-btn mt-5" style="font-family: 'Courier Prime', monospace;">Save</button>
             </form>
+
+            <!-- 添加数据迁移部分 -->
+            <div class="data-migration">
+                <h4 style="font-family: 'Press Start 2P', cursive; font-size: 1rem;">Data Migration</h4>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <button id="exportBtn" class="btn btn-outline-primary" style="font-family: 'Courier Prime', monospace;">Export Data</button>
+                    <button id="importBtn" class="btn btn-outline-success" style="font-family: 'Courier Prime', monospace;">Import Data</button>
+                </div>
+                <input type="file" id="importInput" style="display: none;" accept=".json">
+                <div id="migrationMessage" class="alert mt-3" style="display: none;"></div>
+            </div>
 
             <div id="feedbackMessage" class="alert alert-success mt-3" style="display: none; text-align: center;" role="alert">
                 Options are successfully saved!
