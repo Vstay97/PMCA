@@ -7,7 +7,7 @@
     "homepage_url": "https://github.com/Vstay97/PMCA",
     "options_ui": {
         "page": "options.html",
-        "open_in_tab": false  
+        "open_in_tab": false
     },
     "icons": {
         "128": "assets/logo.png",
@@ -20,10 +20,12 @@
     },
     "background": {},
     "permissions": [
+        "storage",
+        "unlimitedStorage"
+    ],
+    "host_permissions": [
         "https://leetcode.com/*",
-        "https://leetcode.cn/*",
-        "unlimitedStorage",
-        "storage"
+        "https://leetcode.cn/*"
     ],
     "content_scripts": [
         {
