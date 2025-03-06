@@ -37,6 +37,10 @@ const getResetButtonTag = (problem) => `<small class="fa-solid fa-arrows-rotate 
                                             data-bs-toggle="tooltip" data-bs-title="🔄 Reset progress" data-bs-placement="left"\
                                             style="color: #d2691e;" data-id=${problem.index}> </small>`;
 
+const getDowngradeButtonTag = (problem) => `<small class="fa-solid fa-arrow-down fa-2xs mt-2 mb-0 downgrade-btn-mark" \
+                                            data-bs-toggle="tooltip" data-bs-title="⬇️ 降低掌握度" data-bs-placement="left"\
+                                            style="color: #2e86de;" data-id=${problem.index}> </small>`;
+
 const createReviewProblemRecord = (problem) => {
     const htmlTag =
         `\
@@ -47,6 +51,7 @@ const createReviewProblemRecord = (problem) => {
         <td><small>${getDelayedHours(problem)} hour(s)</small></td>\
         <td style="text-align: center; vertical-align:middle">\
             ${getCheckButtonTag(problem)}\
+            ${getDowngradeButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
             ${getDeleteButtonTag(problem)}\
         </td>\
@@ -67,6 +72,7 @@ const createScheduleProblemRecord = (problem) => {
         <td><small>${months[nextReviewDate.getMonth()]} ${nextReviewDate.getDate()} ${nextReviewDate.getHours()}:${nextReviewDate.getMinutes() < 10 ? `0${nextReviewDate.getMinutes()}` : nextReviewDate.getMinutes()}</small></td>\
         <td style="text-align: center; vertical-align:middle">\
             ${getCheckButtonTag(problem)}\
+            ${getDowngradeButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
             ${getDeleteButtonTag(problem)}\
         </td>\
@@ -84,6 +90,7 @@ const createCompletedProblemRecord = (problem) => {
         ${getProblemProgressBarCell(problem, 20)}\
         ${getProblemLevelCell(problem)}\
         <td style="text-align: center; vertical-align:middle">\
+            ${getDowngradeButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
             ${getDeleteButtonTag(problem)}\
         </td>\
@@ -246,7 +253,7 @@ export const renderUndoButton = async () => {
     } else {
         Array.prototype.forEach.call(undoButtonDOMs, btn => btn.setAttribute("disabled", "disabled"));
     }
-} 
+}
 
 export const renderAll = async () => {
     await loadConfigs();

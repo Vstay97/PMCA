@@ -10,5 +10,6 @@ export class OperationHistory {
 export const OPS_TYPE = Object.freeze({
     MASTER: "mark as mastered",
     RESET: "reset progress",
-    DELETE: "delete record"
+    DELETE: "delete record",
+    DOWNGRADE: "downgrade proficiency"
 });

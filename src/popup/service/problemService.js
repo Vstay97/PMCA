@@ -79,7 +79,7 @@ export const deleteProblem = async (problemId) => {
 
     let problems = await getAllProblems();
     const problem = problems[problemId];
-    
+
     // soft delete
     if (problem) {
         problem.isDeleted = true;
@@ -105,9 +105,27 @@ export const resetProblem = async (problemId) => {
     await setProblems(problems);
 };
 
+export const downgradeProblem = async (problemId) => {
+    let problems = await getAllProblems();
+    let problem = problems[problemId];
+
+    // 如果proficiency已经是0，则不做任何改变
+    if (problem.proficiency > 0) {
+        problem.proficiency = problem.proficiency - 1;
+    }
+    problem.submissionTime = Date.now();
+    problem.modificationTime = Date.now();
+
+    await addNewOperationHistory(problem, OPS_TYPE.DOWNGRADE, Date.now());
+
+    problems[problemId] = problem;
+
+    await setProblems(problems);
+};
+
 export const syncProblems = async () => {
     if (!store.isCloudSyncEnabled) return;
     let cnMode = await isInCnMode();
     const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
-    await syncLocalAndCloudStorage(key, mergeProblems); 
+    await syncLocalAndCloudStorage(key, mergeProblems);
 }
