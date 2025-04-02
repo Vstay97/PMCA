@@ -123,6 +123,37 @@ export const downgradeProblem = async (problemId) => {
     await setProblems(problems);
 };
 
+export const reviewNow = async (problemId) => {
+    let problems = await getAllProblems();
+    let problem = problems[problemId];
+
+    // 根据当前的proficiency级别计算时间偏移量
+    // 确保无论什么proficiency级别的问题，都能立即出现在需要复习的列表中
+    const currentProficiency = problem.proficiency;
+    let timeOffset = 0;
+    
+    // 处理forggettingCurve为空的边界情况
+    if (forggettingCurve.length === 0) {
+        // 如果没有定义遗忘曲线，设置一个默认值（例如1天）
+        timeOffset = 24 * 60 * 60 * 1000; // 1天，转换为毫秒
+    } else if (currentProficiency < forggettingCurve.length) {
+        // 将时间设置为刚好超过当前级别的复习时间间隔
+        timeOffset = forggettingCurve[currentProficiency] * 60 * 1000; // 转换为毫秒
+    } else {
+        // 如果已经达到最高级别（已掌握），使用最长的时间间隔
+        timeOffset = forggettingCurve[forggettingCurve.length - 1] * 60 * 1000;
+    }
+    
+    problem.submissionTime = Date.now() - timeOffset - 60 * 1000; // 额外减去1分钟，确保立即可以复习
+    problem.modificationTime = Date.now();
+
+    await addNewOperationHistory(problem, OPS_TYPE.REVIEW_NOW, Date.now());
+
+    problems[problemId] = problem;
+
+    await setProblems(problems);
+};
+
 export const syncProblems = async () => {
     if (!store.isCloudSyncEnabled) return;
     let cnMode = await isInCnMode();

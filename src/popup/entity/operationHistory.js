@@ -11,5 +11,6 @@ export const OPS_TYPE = Object.freeze({
     MASTER: "mark as mastered",
     RESET: "reset progress",
     DELETE: "delete record",
-    DOWNGRADE: "downgrade proficiency"
+    DOWNGRADE: "downgrade proficiency",
+    REVIEW_NOW: "review now"
 });

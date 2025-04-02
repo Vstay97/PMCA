@@ -41,6 +41,10 @@ const getDowngradeButtonTag = (problem) => `<small class="fa-solid fa-arrow-down
                                             data-bs-toggle="tooltip" data-bs-title="⬇️ 降低掌握度" data-bs-placement="left"\
                                             style="color: #2e86de;" data-id=${problem.index}> </small>`;
 
+const getReviewNowButtonTag = (problem) => `<small class="fa-solid fa-clock fa-2xs mt-2 mb-0 review-now-btn-mark" \
+                                            data-bs-toggle="tooltip" data-bs-title="⏰ 立即复习" data-bs-placement="left"\
+                                            style="color: #3498db;" data-id=${problem.index}> </small>`;
+
 const createReviewProblemRecord = (problem) => {
     const htmlTag =
         `\
@@ -52,6 +56,7 @@ const createReviewProblemRecord = (problem) => {
         <td style="text-align: center; vertical-align:middle">\
             ${getCheckButtonTag(problem)}\
             ${getDowngradeButtonTag(problem)}\
+            ${getReviewNowButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
             ${getDeleteButtonTag(problem)}\
         </td>\
@@ -73,6 +78,7 @@ const createScheduleProblemRecord = (problem) => {
         <td style="text-align: center; vertical-align:middle">\
             ${getCheckButtonTag(problem)}\
             ${getDowngradeButtonTag(problem)}\
+            ${getReviewNowButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
             ${getDeleteButtonTag(problem)}\
         </td>\

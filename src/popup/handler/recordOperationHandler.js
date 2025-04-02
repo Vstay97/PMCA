@@ -1,6 +1,6 @@
-import { checkButtonDOMs, deleteButtonDOMs, downgradeButtonDOMs, resetButtonDOMs, undoButtonDOMs } from "../util/doms";
+import { checkButtonDOMs, deleteButtonDOMs, downgradeButtonDOMs, resetButtonDOMs, reviewNowButtonDOMs, undoButtonDOMs } from "../util/doms";
 import { store } from "../store";
-import { deleteProblem, downgradeProblem, markProblemAsMastered, resetProblem } from "../service/problemService";
+import { deleteProblem, downgradeProblem, markProblemAsMastered, resetProblem, reviewNow } from "../service/problemService";
 import { renderAll } from "../view/view";
 import { undoLatestOperation } from "../service/operationHistoryService";
 
@@ -45,6 +45,14 @@ export const setRecordOperationHandlers = () => {
         Array.prototype.forEach.call(downgradeButtonDOMs, (btn) => btn.onclick = async (event) => {
             hide_all_tooltips();
             await downgradeProblem(event.target.dataset.id);
+            await renderAll();
+        });
+    }
+
+    if (reviewNowButtonDOMs !== undefined) {
+        Array.prototype.forEach.call(reviewNowButtonDOMs, (btn) => btn.onclick = async (event) => {
+            hide_all_tooltips();
+            await reviewNow(event.target.dataset.id);
             await renderAll();
         });
     }
