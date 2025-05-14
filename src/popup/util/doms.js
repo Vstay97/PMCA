@@ -31,3 +31,5 @@ export const switchButtonDOM = document.getElementById('switchButton');
 export const optionPageFeedbackMsgDOM = document.getElementById('feedbackMessage');
 
 export const popupPageDOM = document.defaultView;
+
+export const searchInputDOM = document.getElementById("searchInput");

@@ -2,7 +2,7 @@ import { store } from "../store";
 import { isInCnMode } from "../service/modeService";
 import { getAllProblems, syncProblems } from "../service/problemService";
 import { CN_LABLE, GL_LABLE, PAGE_SIZE, months } from "../util/constants";
-import { completedTableDOM, input0DOM, input1DOM, input2DOM, inputLabel0DOM, inputLabel1DOM, inputLabel2DOM, needReviewTableDOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, noReviewTableDOM, prevButton0DOM, prevButton1DOM, prevButton2DOM, siteLabelDOM, switchButtonDOM, undoButtonDOMs } from "../util/doms";
+import { completedTableDOM, input0DOM, input1DOM, input2DOM, inputLabel0DOM, inputLabel1DOM, inputLabel2DOM, needReviewTableDOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, noReviewTableDOM, prevButton0DOM, prevButton1DOM, prevButton2DOM, searchInputDOM, siteLabelDOM, switchButtonDOM, undoButtonDOMs } from "../util/doms";
 import { calculatePageNum, decorateProblemLevel, getDelayedHours, getNextReviewTime, isCompleted, needReview, scheduledReview } from "../util/utils";
 import { registerAllHandlers } from "../handler/handlerRegister";
 import { hasOperationHistory } from "../service/operationHistoryService";
@@ -261,15 +261,41 @@ export const renderUndoButton = async () => {
     }
 }
 
-export const renderAll = async () => {
+// Add this function to filter problems based on search query
+const filterProblemsBySearch = (problems, searchQuery) => {
+    if (!searchQuery || searchQuery.trim() === '') {
+        return problems;
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    return problems.filter(problem =>
+        problem.name.toLowerCase().includes(query) ||
+        problem.index.toString().includes(query)
+    );
+};
+
+export const renderAll = async (searchQuery = '') => {
     await loadConfigs();
     await renderSiteMode();
     await syncProblems();
 
     const problems = Object.values(await getAllProblems()).filter(p => p.isDeleted !== true);
-    store.needReviewProblems = problems.filter(needReview);
-    store.reviewScheduledProblems = problems.filter(scheduledReview);
-    store.completedProblems = problems.filter(isCompleted);
+
+    // Get all problem categories
+    let needReviewProbs = problems.filter(needReview);
+    let scheduledProbs = problems.filter(scheduledReview);
+    let completedProbs = problems.filter(isCompleted);
+
+    // Apply search filter if query exists
+    if (searchQuery && searchQuery.trim() !== '') {
+        needReviewProbs = filterProblemsBySearch(needReviewProbs, searchQuery);
+        scheduledProbs = filterProblemsBySearch(scheduledProbs, searchQuery);
+        completedProbs = filterProblemsBySearch(completedProbs, searchQuery);
+    }
+
+    store.needReviewProblems = needReviewProbs;
+    store.reviewScheduledProblems = scheduledProbs;
+    store.completedProblems = completedProbs;
 
     store.toReviewMaxPage = calculatePageNum(store.needReviewProblems);
     store.scheduledMaxPage = calculatePageNum(store.reviewScheduledProblems);
