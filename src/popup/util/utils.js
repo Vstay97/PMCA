@@ -1,7 +1,7 @@
 import localStorageDelegate from "../delegate/localStorageDelegate";
 import cloudStorageDelegate from "../delegate/cloudStorageDelegate";
 import { store } from "../store";
-import { COMPILE_ERROR_AND_TLE_CLASSNAME, COMPILE_ERROR_AND_TLE_CLASSNAME_CN, COMPILE_ERROR_AND_TLE_CLASSNAME_NEW, PAGE_SIZE, SUBMIT_BUTTON_ATTRIBUTE_NAME, SUBMIT_BUTTON_ATTRIBUTE_VALUE, SUCCESS_CLASSNAME, SUCCESS_CLASSNAME_CN, SUCCESS_CLASSNAME_NEW, WRONG_ANSWER_CLASSNAME, WRONG_ANSWER_CLASSNAME_CN, WRONG_ANSWER_CLASSNAME_NEW, forggettingCurve } from "./constants";
+import { COMPILE_ERROR_AND_TLE_CLASSNAME, COMPILE_ERROR_AND_TLE_CLASSNAME_CN, COMPILE_ERROR_AND_TLE_CLASSNAME_NEW, NOWCODER_SUCCESS_INDICATOR, PAGE_SIZE, SUBMIT_BUTTON_ATTRIBUTE_NAME, SUBMIT_BUTTON_ATTRIBUTE_VALUE, SUCCESS_CLASSNAME, SUCCESS_CLASSNAME_CN, SUCCESS_CLASSNAME_NEW, WRONG_ANSWER_CLASSNAME, WRONG_ANSWER_CLASSNAME_CN, WRONG_ANSWER_CLASSNAME_NEW, forggettingCurve } from "./constants";
 
 export const needReview = (problem) => {
     if (problem.proficiency >= forggettingCurve.length) {
@@ -22,13 +22,27 @@ export const isCompleted = (problem) => {
 };
 
 export const calculatePageNum = (problems) => {
-    return Math.max(Math.ceil(problems.length / PAGE_SIZE), 1);;
+    if (!problems || !Array.isArray(problems)) {
+        return 1;
+    }
+    return Math.max(Math.ceil(problems.length / PAGE_SIZE), 1);
 }
 
 export const decorateProblemLevel = (level) => {
     let color;
+    let displayLevel = level;
+
+    // 如果是牛客的原始难度，需要映射显示
+    const nowcoderLevelMap = {
+        'Easy': '简单',
+        'Medium': '中等',
+        'Hard': '困难'
+    };
+
+    // 检查是否需要显示牛客原始难度
     if (level === "Easy") {
         color = "rgb(67, 160, 71)";
+        // 这里可以根据需要显示原始的牛客难度，但目前保持 LeetCode 风格
     } else if (level === "Medium") {
         color = "rgb(239, 108, 0)";
     } else {
@@ -57,29 +71,81 @@ export const getDifficultyBasedSteps = (diffculty) => {
 }
 
 export const isSubmitButton = (element) => {
-    return element.getAttribute(SUBMIT_BUTTON_ATTRIBUTE_NAME) === SUBMIT_BUTTON_ATTRIBUTE_VALUE;
+    // LeetCode 提交按钮检测
+    if (element.getAttribute(SUBMIT_BUTTON_ATTRIBUTE_NAME) === SUBMIT_BUTTON_ATTRIBUTE_VALUE) {
+        return true;
+    }
+
+    // 牛客提交按钮检测 - 检查是否包含提交相关的类名或文本
+    if (window.location.href.includes('nowcoder.com')) {
+        // 牛客的提交按钮通常包含 "提交" 文本或特定的类名
+        const buttonText = element.textContent?.trim();
+        if (buttonText && (buttonText.includes('提交') || buttonText.includes('Submit'))) {
+            return true;
+        }
+
+        // 检查按钮的类名
+        const className = element.className;
+        if (className && (className.includes('btn-primary') || className.includes('submit'))) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 export const getSubmissionResult = () => {
+    // 牛客网站的提交结果检测
+    if (window.location.href.includes('nowcoder.com')) {
+        console.log('检测牛客提交结果...');
+
+        // 检查是否有成功提交的标识
+        const successElement = document.getElementsByClassName(NOWCODER_SUCCESS_INDICATOR)[0];
+        console.log('牛客成功元素:', successElement);
+
+        if (successElement) {
+            console.log('找到牛客成功提交标识');
+            return successElement;
+        }
+
+        // 如果没有找到成功标识，返回一个表示失败的元素（如果存在的话）
+        const failElement = document.querySelector('.error, .wrong, .fail');
+        console.log('牛客失败元素:', failElement);
+        return failElement;
+    }
+
+    // LeetCode 的提交结果检测（保持原有逻辑）
     return document.getElementsByClassName(SUCCESS_CLASSNAME_CN)[0] ||
-    document.getElementsByClassName(WRONG_ANSWER_CLASSNAME_CN)[0] ||
-    document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME_CN)[0] ||
-    document.getElementsByClassName(SUCCESS_CLASSNAME)[0] ||
-    document.getElementsByClassName(WRONG_ANSWER_CLASSNAME)[0] ||
-    document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME)[0] ||
-    document.getElementsByClassName(SUCCESS_CLASSNAME_NEW)[0] ||
-    document.getElementsByClassName(WRONG_ANSWER_CLASSNAME_NEW)[0] ||
-    document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME_NEW)[0];
+        document.getElementsByClassName(WRONG_ANSWER_CLASSNAME_CN)[0] ||
+        document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME_CN)[0] ||
+        document.getElementsByClassName(SUCCESS_CLASSNAME)[0] ||
+        document.getElementsByClassName(WRONG_ANSWER_CLASSNAME)[0] ||
+        document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME)[0] ||
+        document.getElementsByClassName(SUCCESS_CLASSNAME_NEW)[0] ||
+        document.getElementsByClassName(WRONG_ANSWER_CLASSNAME_NEW)[0] ||
+        document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME_NEW)[0];
 }
 
 export const isSubmissionSuccess = (submissionResult) => {
+    // 牛客网站的成功判断
+    if (window.location.href.includes('nowcoder.com')) {
+        console.log('判断牛客提交是否成功:', submissionResult);
+        const isSuccess = submissionResult && submissionResult.className.includes(NOWCODER_SUCCESS_INDICATOR);
+        console.log('牛客提交成功判断结果:', isSuccess);
+        return isSuccess;
+    }
+
+    // LeetCode 的成功判断（保持原有逻辑）
     return submissionResult.className.includes(SUCCESS_CLASSNAME_CN) ||
-    submissionResult.className.includes(SUCCESS_CLASSNAME_NEW) ||
-    submissionResult.className.includes(SUCCESS_CLASSNAME);
+        submissionResult.className.includes(SUCCESS_CLASSNAME_NEW) ||
+        submissionResult.className.includes(SUCCESS_CLASSNAME);
 }
 
 export const updateProblemUponSuccessSubmission = (problem) => {
-    const steps = getDifficultyBasedSteps(problem.problemLevel);
+    console.log('更新题目提交状态:', problem);
+    const steps = getDifficultyBasedSteps(problem.level || problem.problemLevel);
+    console.log('难度对应的步骤:', steps);
+
     let nextProficiencyIndex;
     for (const i of steps) {
         if (i > problem.proficiency) {
@@ -87,6 +153,8 @@ export const updateProblemUponSuccessSubmission = (problem) => {
             break;
         }
     }
+
+    console.log('下一个熟练度级别:', nextProficiencyIndex);
 
     // further review needed
     if (nextProficiencyIndex !== undefined) {
@@ -97,6 +165,8 @@ export const updateProblemUponSuccessSubmission = (problem) => {
     }
     problem.submissionTime = Date.now();
     problem.modificationTime = Date.now();
+
+    console.log('更新后的题目状态:', problem);
     return problem;
 }
 

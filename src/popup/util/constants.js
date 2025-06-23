@@ -33,3 +33,6 @@ export const COMPILE_ERROR_AND_TLE_CLASSNAME = "error__10k9";
 export const SUCCESS_CLASSNAME_NEW = "text-green-s dark:text-dark-green-s flex flex-1 items-center gap-2 text-[16px] font-medium leading-6";
 export const WRONG_ANSWER_CLASSNAME_NEW = "whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
 export const COMPILE_ERROR_AND_TLE_CLASSNAME_NEW = "mr-1 flex-1 whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
+
+// nowcoder
+export const NOWCODER_SUCCESS_INDICATOR = "ac-champion"; // 牛客成功提交的标识图片类名
