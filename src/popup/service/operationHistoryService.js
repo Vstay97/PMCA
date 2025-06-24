@@ -24,7 +24,7 @@ export const addNewOperationHistory = async (before, type, time) => {
 
 export const popLatestOperationHistory = async () => {
     const opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
-    if (opsHistory === undefined || opsHistory.length === 0) {
+    if (opsHistory === undefined || opsHistory === null || opsHistory.length === 0) {
         return undefined;
     }
 
@@ -48,5 +48,5 @@ export const undoLatestOperation = async () => {
 
 export const hasOperationHistory = async () => {
     const opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
-    return opsHistory !== undefined && opsHistory.length > 0;
+    return opsHistory !== undefined && opsHistory !== null && opsHistory.length > 0;
 }
