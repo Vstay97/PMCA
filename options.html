@@ -7,7 +7,9 @@
     <link href="lib/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap"
+        rel="stylesheet">
     <style>
         .form-group {
             display: flex;
@@ -68,7 +70,7 @@
 
         <!-- Options Form -->
         <div class="multifont my-0 py-0 by-0" style="text-align: center;">
-            
+
             <form id="optionsForm">
                 <div class="form-group">
                     <label for="problemSorterSelect" class="form-label">Sort Problems By</label>
@@ -78,28 +80,36 @@
                 </div>
 
                 <div class="form-check form-switch">
-                    <label class="form-check-label" for="syncToggle">Enable Cloud Sync (⚠️experimental feature⚠️)</label>
+                    <label class="form-check-label" for="syncToggle">Enable Cloud Sync (⚠️experimental
+                        feature⚠️)</label>
                     <input class="form-check-input custom-switch" type="checkbox" id="syncToggle">
                 </div>
                 <div style="font-size: smaller; text-align: left;">
-                    <small><b>p.s.</b> ⚠️For 2 or more devices to share the problem data, all of them should: 1.enable cloud sync, 2.login to chrome with the same user, 3.enable <a target="#" href="https://support.google.com/chrome/answer/185277?hl=en&co=GENIE.Platform%3DAndroid#zippy=%2Csign-in-turn-on-sync">chrome sync</a> ⚠️</small>
+                    <small><b>p.s.</b> ⚠️For 2 or more devices to share the problem data, all of them should: 1.enable
+                        cloud sync, 2.login to chrome with the same user, 3.enable <a target="#"
+                            href="https://support.google.com/chrome/answer/185277?hl=en&co=GENIE.Platform%3DAndroid#zippy=%2Csign-in-turn-on-sync">chrome
+                            sync</a> ⚠️</small>
                 </div>
 
-                <button type="submit" class="btn btn-outline-warning custom-btn mt-5" style="font-family: 'Courier Prime', monospace;">Save</button>
+                <button type="submit" class="btn btn-outline-warning custom-btn mt-5"
+                    style="font-family: 'Courier Prime', monospace;">Save</button>
             </form>
 
             <!-- 添加数据迁移部分 -->
             <div class="data-migration">
                 <h4 style="font-family: 'Press Start 2P', cursive; font-size: 1rem;">Data Migration</h4>
                 <div class="d-flex justify-content-center gap-3 mt-3">
-                    <button id="exportBtn" class="btn btn-outline-primary" style="font-family: 'Courier Prime', monospace;">Export Data</button>
-                    <button id="importBtn" class="btn btn-outline-success" style="font-family: 'Courier Prime', monospace;">Import Data</button>
+                    <button id="exportBtn" class="btn btn-outline-primary"
+                        style="font-family: 'Courier Prime', monospace;">Export Data</button>
+                    <button id="importBtn" class="btn btn-outline-success"
+                        style="font-family: 'Courier Prime', monospace;">Import Data</button>
                 </div>
                 <input type="file" id="importInput" style="display: none;" accept=".json">
                 <div id="migrationMessage" class="alert mt-3" style="display: none;"></div>
             </div>
 
-            <div id="feedbackMessage" class="alert alert-success mt-3" style="display: none; text-align: center;" role="alert">
+            <div id="feedbackMessage" class="alert alert-success mt-3" style="display: none; text-align: center;"
+                role="alert">
                 Options are successfully saved!
             </div>
         </div>
@@ -107,9 +117,10 @@
         <!-- footer -->
         <div class="text-center mb-3 mt-3"
             style="display: flex; align-items: center; justify-content: center; text-align: center; position:fixed; bottom: 0;">
-            <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
-                frameborder="0" scrolling="0" width="200" height="30" title="GitHub" loading="lazy" class="col-3 mb-0"></iframe>
-            <a class="col-9 mb-0 ms-0" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
+            <iframe src="https://ghbtns.com/github-btn.html?user=Vstay97&repo=PMCA&type=star&count=true&size=large"
+                frameborder="0" scrolling="0" width="200" height="30" title="GitHub" loading="lazy"
+                class="col-3 mb-0"></iframe>
+            <a class="col-9 mb-0 ms-0" href="https://github.com/Vstay97/PMCA/issues/new" target="_blank">
                 <button type="button" class="btn btn-outline-warning custom-btn"
                     style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features / Report a
                     bug</button>
